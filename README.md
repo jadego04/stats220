@@ -15,4 +15,4 @@ Here's a list of my favorite R functions
 
 If you want to be friends, you can connect with me on https://www.linkedin.com/in/jadego10/ !
 
-A meme that captures how I currently feel about my university studies is ![](https://giphy.com/gifs/death-happiness-kiszkiloszki-26BRuYXWpqOoIFnzO)
+A meme that captures how I currently feel about my university studies is ![] https://giphy.com/gifs/death-happiness-kiszkiloszki-26BRuYXWpqOoIFnzO
