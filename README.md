@@ -35,7 +35,7 @@ Hi there! I'm **Jade**, this is my repo for _STATS 220_.
 </ul>
 
 ## Find Me Online
-  **LinkedIn:** [jadego04](https://www.linkedin.com/in/jadego04/)
+  **LinkedIn:** [Jade Go](https://www.linkedin.com/in/jadego10/)
   <br>Always happy to chat!
 
 
