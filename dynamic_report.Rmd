@@ -1,0 +1,94 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{css}
+h2 {
+  color: #FFB7C5;
+  border-bottom: 2px solid #74A12E;
+  padding-bottom: 3px;
+}
+```
+
+## Exploring Daily Digital Habits
+
+You need to change the contents of this Rmd! Replace the R code and markdown give below in this template document.
+
+```{r}
+library(tidyverse)
+
+# Csv link file not local, uploaded to web
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRY5PlCdZ8CWWPrADnSso0odpptJc16IxOV_7GSMxVy6osIMa2y8iqmXYOONNIEcgauU_fAaMt5K0XO/pub?gid=1317288649&single=true&output=csv")
+head(logged_data) # to check
+
+latest_data <- logged_data %>%
+  rename(mood_level = 2,
+         screentime = 3, # HH:MM format
+         screen_use = 4
+         )
+
+head(latest_data)
+
+# Transform to char before numeric
+latest_data$screentime <- as.character(latest_data$screentime) 
+
+# Transform screentime to minutes for consistency
+latest_data$screentime <- sapply(strsplit(latest_data$screentime, ":"), function(x) {
+  as.numeric(x[1]) * 60 + as.numeric(x[2])
+}) 
+
+# Summaries
+latest_data$screentime %>%
+  max() 
+
+latest_data$screentime %>%
+  mean() 
+
+latest_data$screentime %>%
+  min()
+
+summary(latest_data$screentime)
+
+"Max and mean values are the most revelant
+summary values to add. Mean because it shows us
+how often do people use their screen on an average day
+and max because I am interested in the extreme 
+and whether this has certain implications"
+
+latest_data %>%
+  ggplot() + 
+  geom_bar(aes(x = screentime,
+               fill = mood_level)) +
+  labs(title = "Average Screentime with Mood Level",
+       x = "Screentime (in minutes)",
+       y = "Mood Level",
+       )
+# Interesting to see if screentime affects mood
+"This plot is beautiful but it is hard to interpret
+there are other way to improve this using other plot
+but for now, we're keeping it on the side"
+
+latest_data %>%
+  ggplot() + 
+  geom_bar(aes(x = mood_level,
+               fill = screentime)) +
+  labs(title = "Average Screentime with Mood Level",
+       y = "Screentime (in minutes)",
+       x = "Mood Level",
+  )
+
+latest_data %>%
+  ggplot() + 
+  geom_bar(aes(x = mood_level,
+               fill = screen_use)) +
+  labs(title = "Mood Level vs Screen Use",
+       x = "Mood Level",
+       y = "Screen Use",
+  )
+```
+
