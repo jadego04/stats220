@@ -9,30 +9,34 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 
 ```{css}
 h2 {
-  color: #FFB7C5;
-  border-bottom: 2px solid #74A12E;
-  padding-bottom: 3px;
+  background-color: #f0f7ff;
+  color: #2a4d69;
+  padding: 6px 12px;
+  border-left: 4px solid #4b86b4;
+  border-radius: 4px;
+  font-weight: 600;
 }
 ```
 
 ## Exploring Daily Digital Habits
 
-You need to change the contents of this Rmd! Replace the R code and markdown give below in this template document.
+I spend a lot of time on my screens. For work, for fun, and honestly just out of habit. It’s not extreme, but it is one of those guilty pleasures where my phone is basically always with me. That got me wondering what the actual effects of this might be. That was the original motivation for the study, but once I started looking at the data, I realised the way I structured the form might shape the insights we get differently.
+
+I asked people how they were feeling first, and only then about their screentime. In the plots below, you’ll see there isn’t much difference between lower, average, and higher screentime. It makes me wonder whether the results would look different if I’d asked the screentime question first.
+
+For this analysis, I’m working with three variables: screentime (converted into minutes for consistency), mood_level (five levels), and screen_use (three categories).
 
 ```{r}
 library(tidyverse)
 
 # Csv link file not local, uploaded to web
 logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRY5PlCdZ8CWWPrADnSso0odpptJc16IxOV_7GSMxVy6osIMa2y8iqmXYOONNIEcgauU_fAaMt5K0XO/pub?gid=1317288649&single=true&output=csv")
-head(logged_data) # to check
 
 latest_data <- logged_data %>%
   rename(mood_level = 2,
          screentime = 3, # HH:MM format
          screen_use = 4
          )
-
-head(latest_data)
 
 # Transform to char before numeric
 latest_data$screentime <- as.character(latest_data$screentime) 
@@ -43,36 +47,22 @@ latest_data$screentime <- sapply(strsplit(latest_data$screentime, ":"), function
 }) 
 
 # Summaries
-latest_data$screentime %>%
+max_val <- latest_data$screentime %>%
   max() 
 
-latest_data$screentime %>%
-  mean() 
+mean_val <- latest_data$screentime %>%
+  mean()
 
-latest_data$screentime %>%
+min_val <- latest_data$screentime %>%
   min()
 
 summary(latest_data$screentime)
 
-"Max and mean values are the most revelant
-summary values to add. Mean because it shows us
-how often do people use their screen on an average day
-and max because I am interested in the extreme 
-and whether this has certain implications"
+paste("We have", max_val, "minutes as our highest screentime but overall we have", round(mean_val, 2), "minutes spent on screens")
+```
 
-latest_data %>%
-  ggplot() + 
-  geom_bar(aes(x = screentime,
-               fill = mood_level)) +
-  labs(title = "Average Screentime with Mood Level",
-       x = "Screentime (in minutes)",
-       y = "Mood Level",
-       )
-# Interesting to see if screentime affects mood
-"This plot is beautiful but it is hard to interpret
-there are other way to improve this using other plot
-but for now, we're keeping it on the side"
 
+```{r}
 latest_data %>%
   ggplot() + 
   geom_bar(aes(x = mood_level,
